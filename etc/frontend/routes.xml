@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Orkestapay_Cards routes definition
+ *
+ * @category    Orkestapay
+ * @package     Orkestapay_Stores
+ * @author      Federico Balderas
+ * @copyright   Orkestapay (http://orkestapay.com)
+ * @license     http://www.apache.org/licenses/LICENSE-2.0  Apache License Version 2.0
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <route id="orkestapay" frontName="orkestapay">
+            <module name="Orkestapay_Cards" />
+        </route>
+    </router>
+</config>
