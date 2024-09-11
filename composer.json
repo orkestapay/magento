@@ -1,9 +1,13 @@
 {
-    "name": "orkestapay/magento2-cards",
-    "description": "Credit card payment integration for Magento 2",
+    "name": "orkestapay/magento-cards",
+    "description": "OrkestaPay module for Magento 2",
     "type": "magento2-module",
+    "version": "1.0.0",
     "minimum-stability": "stable",
-    "license": "Apache-2.0",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
     "authors": [
         {
             "name": "Orkestapay",
@@ -16,9 +20,16 @@
             "email": "federico.balderas@orkestapay.mx"
         }
     ],
-    "extra": {
-        "map": [
-            ["*", "Orkestapay/Cards"]
-        ]
+    "require": {
+        "php": ">=7.3.0",
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Orkestapay\\Cards\\": ""
+        }
     }
 }
