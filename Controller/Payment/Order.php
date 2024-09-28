@@ -84,6 +84,7 @@ class Order extends \Magento\Framework\App\Action\Action
         $quote = $this->cart->getQuote();
         $billing_address = $quote->getBillingAddress();
         $shipping_address = $quote->getShippingAddress();
+        $customerEmail = $quote->getCustomerEmail() ?: $quote->getBillingAddress()->getEmail();
 
         foreach ($quote->getAllVisibleItems() as $item) {
             $items[] = [
@@ -113,12 +114,12 @@ class Order extends \Magento\Framework\App\Action\Action
             'customer' => [
                 'first_name' => $billing_address->getFirstname(),
                 'last_name' => $billing_address->getLastname(),
-                'email' => $quote->getCustomerEmail(),
+                'email' => $customerEmail,
             ],
             'billing_address' => [
                 'first_name' => $billing_address->getFirstname(),
                 'last_name' => $billing_address->getLastname(),
-                'email' => $quote->getCustomerEmail(),
+                'email' => $customerEmail,
                 'line_1' => $billing_address->getStreetLine(1),
                 'line_2' => $billing_address->getStreetLine(2),
                 'city' => $billing_address->getCity(),
@@ -129,7 +130,7 @@ class Order extends \Magento\Framework\App\Action\Action
             'shipping_address' => [
                 'first_name' => $shipping_address->getFirstname(),
                 'last_name' => $shipping_address->getLastname(),
-                'email' => $quote->getCustomerEmail(),
+                'email' => $customerEmail,
                 'line_1' => $shipping_address->getStreetLine(1),
                 'line_2' => $shipping_address->getStreetLine(2),
                 'city' => $shipping_address->getCity(),
