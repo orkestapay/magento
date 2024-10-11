@@ -97,35 +97,20 @@ class Order extends \Magento\Framework\App\Action\Action
 
         $totalItemsAmount = $quote->getSubtotal();
         $discount = $totalItemsAmount - $quote->getSubtotalWithDiscount();
+        $totalDiscount = abs(round($discount, 2));
+        $shippingAmount = round($quote->getShippingAddress()->getShippingAmount(), 2);
 
         $purchase_data = [
             'merchant_order_id' => $quote->getId() . '-' . time(),
             'currency' => $quote->getBaseCurrencyCode(),
             'country_code' => $billing_address->getCountryId(),
             'products' => $items,
-            'discounts' => [
-                ['amount' => abs(round($discount, 2))],
-            ],
-            'shipping_details' => [
-                'amount' => round($quote->getShippingAddress()->getShippingAmount(), 2),
-            ],
             'subtotal_amount' => round($totalItemsAmount, 2),
             'total_amount' => round($quote->getBaseGrandTotal(), 2),
             'customer' => [
                 'first_name' => $billing_address->getFirstname(),
                 'last_name' => $billing_address->getLastname(),
                 'email' => $customerEmail,
-            ],
-            'billing_address' => [
-                'first_name' => $billing_address->getFirstname(),
-                'last_name' => $billing_address->getLastname(),
-                'email' => $customerEmail,
-                'line_1' => $billing_address->getStreetLine(1),
-                'line_2' => $billing_address->getStreetLine(2),
-                'city' => $billing_address->getCity(),
-                'state' => $billing_address->getRegion(),
-                'country' => $billing_address->getCountryId(),
-                'zip_code' => $billing_address->getPostcode(),
             ],
             'shipping_address' => [
                 'first_name' => $shipping_address->getFirstname(),
@@ -139,6 +124,14 @@ class Order extends \Magento\Framework\App\Action\Action
                 'zip_code' => $shipping_address->getPostcode(),
             ],
         ];
+
+        if ($totalDiscount > 0) {
+            $purchase_data['discounts'][] = ['amount' => $totalDiscount];
+        }
+
+        if ($shippingAmount > 0) {
+            $purchase_data['shipping_details']['amount'] = $shippingAmount;
+        }
 
         return $purchase_data;
     }
